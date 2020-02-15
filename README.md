@@ -8,13 +8,13 @@ Python project, helps remote people to accomplish tasks together.
 pip install gather2gether
 ```
 
-# Gather2gether server
+# Start server
 
 ```
 gather2gether
 ```
 
-# Gather2gether cli
+# Use cli
 
 ```
 g2g --help
