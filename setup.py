@@ -15,7 +15,14 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/witrdotnet/gather2gether",
     entry_points = {
-        'console_scripts': ['gather2gether=gather2gether.run:main'],
+        'console_scripts': [
+            'gather2gether=gather2gether.run:main',
+            'g2g=gather2gether.g2g:cli',
+        ],
+        'flask.commands': [
+            'tasks=gather2gether.cli:tasks',
+            'users=gather2gether.cli:users',
+        ],
     },
     install_requires=[
         'Flask',
