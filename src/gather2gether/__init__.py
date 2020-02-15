@@ -1,4 +1,4 @@
-from gather2gether.Server import Server
+from gather2gether.server import Server
 from flask import Flask
 
 app = Flask(__name__)
