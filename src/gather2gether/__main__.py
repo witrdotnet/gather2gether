@@ -1,4 +1,4 @@
-from gather2gether.Server import Server
+from gather2gether import g2gServer
 
-g2gServer = Server()
-g2gServer.start()
+if __name__ == "__main__":
+    print(g2gServer.getAsciiArt())

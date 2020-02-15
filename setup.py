@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="gather2gether",
-    version="0.0.1",
+    version="0.0.2-SNAPSHOT",
     packages=find_packages("src"),
     package_dir={"": "src"},
     author="witrdotnet",
@@ -14,6 +14,12 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/witrdotnet/gather2gether",
+    entry_points = {
+        'console_scripts': ['gather2gether=gather2gether.run:main'],
+    },
+    install_requires=[
+        'Flask',
+    ],
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
