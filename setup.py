@@ -1,13 +1,17 @@
 from setuptools import setup, find_packages
 
+with open("src/gather2gether/VERSION", "r") as version_file:
+    __version__ = version_file.read().strip()
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
     name="gather2gether",
-    version="0.0.3-SNAPSHOT",
+    version=__version__,
     packages=find_packages("src"),
     package_dir={"": "src"},
+    package_data={'gather2gether': ['VERSION']},
     author="witrdotnet",
     author_email="witr.net@gmail.com",
     description="Helps remote people to accomplish tasks together",
@@ -26,6 +30,7 @@ setup(
     },
     install_requires=[
         'Flask',
+        'Jinja2'
     ],
     classifiers=[
         "Programming Language :: Python",
@@ -34,5 +39,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=2.0',
+    python_requires='>=2.7',
 )

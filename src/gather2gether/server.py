@@ -1,13 +1,12 @@
 import logging
-import pkg_resources
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 
 class Server(object):
-    def __init__(self, flaskApp):
+    def __init__(self, flaskApp, version):
         self.logger = logging.getLogger('g2g-server')
         # TODO: get version from setup
-        self.version = "0.0.3-SNAPSHOT"
+        self.version = version
         self.flaskApp = flaskApp
         self.httpPort = 8080
         self.host = '0.0.0.0'
