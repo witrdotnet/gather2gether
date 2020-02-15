@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="gather2gether",
-    version="0.0.2",
+    version="0.0.3-SNAPSHOT",
     packages=find_packages("src"),
     package_dir={"": "src"},
     author="witrdotnet",

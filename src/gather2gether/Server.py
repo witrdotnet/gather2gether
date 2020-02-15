@@ -7,7 +7,7 @@ class Server(object):
     def __init__(self, flaskApp):
         self.logger = logging.getLogger('g2g-server')
         # TODO: get version from setup
-        self.version = "0.0.2"
+        self.version = "0.0.3-SNAPSHOT"
         self.flaskApp = flaskApp
         self.httpPort = 8080
         self.host = '0.0.0.0'
