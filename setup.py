@@ -30,7 +30,10 @@ setup(
     },
     install_requires=[
         'Flask',
-        'Jinja2'
+        'Jinja2',
+        'peewee',
+        'pymysql',
+        'configparser',
     ],
     classifiers=[
         "Programming Language :: Python",
