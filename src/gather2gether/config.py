@@ -14,7 +14,14 @@ def readConfig():
     if len(configPath) > 1 and configPath.endswith("/"):
         configPath = configPath[:-1]
     logger.info("config path: {0}".format(configPath))
-    # config from properties file
-    config = configparser.ConfigParser(allow_no_value=True)
-    config.read(configPath + "/gather2gether.properties")
-    return config
+    # check config file exists
+    configFilePath = configPath + "/gather2gether.properties"
+    if os.path.exists(configFilePath):
+        # config from properties file
+        config = configparser.ConfigParser(allow_no_value=True)
+        config.read(configPath + "/gather2gether.properties")
+        return config
+    else:
+        logger.error("not found config file {0}".format(configFilePath))
+        raise EnvironmentError("not found config file " + configFilePath)
+
