@@ -24,6 +24,7 @@ setup(
             'g2g=gather2gether.g2g:cli',
         ],
         'flask.commands': [
+            'db=gather2gether.cli:db',
             'tasks=gather2gether.cli:tasks',
             'users=gather2gether.cli:users',
         ],
