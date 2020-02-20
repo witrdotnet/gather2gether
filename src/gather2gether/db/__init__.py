@@ -56,12 +56,12 @@ class BaseModel(Model):
 
 class User(BaseModel):
     external_id = CharField(unique=True)
-    name = CharField(unique=False)
+    user_name = CharField(unique=False)
     created_date = DateTimeField(default=datetime.datetime.now)
     is_authorized = BooleanField(default=False)
 
 class Project(BaseModel):
-    name = CharField(unique=False)
+    project_name = CharField(unique=False)
     description = CharField(unique=False)
     created_date = DateTimeField(default=datetime.datetime.now)
     planned_start_date = DateTimeField()
