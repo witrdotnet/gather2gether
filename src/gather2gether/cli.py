@@ -35,3 +35,11 @@ def create_task(name):
 def create_user(external_id, name):
     """Creates new user"""
     save_new_user(external_id, name)
+
+@users.command("update")
+@click.argument("external_id")
+@click.argument("name")
+@click.argument("is_active")
+def create_user(external_id, name, is_active):
+    """Updates existing user"""
+    update_user(external_id, name, is_active)

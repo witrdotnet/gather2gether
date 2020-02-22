@@ -58,7 +58,7 @@ class User(BaseModel):
     external_id = CharField(unique=True)
     user_name = CharField(unique=False)
     created_date = DateTimeField(default=datetime.datetime.now)
-    is_authorized = BooleanField(default=False)
+    is_active = BooleanField(default=False)
 
 class Project(BaseModel):
     project_name = CharField(unique=False)
