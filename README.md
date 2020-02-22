@@ -2,6 +2,8 @@
 
 Python project, helps remote people to accomplish tasks together.
 
+[![Build Status](https://travis-ci.com/witrdotnet/gather2gether.svg?branch=master)](https://travis-ci.com/witrdotnet/gather2gether)
+
 # Install
 
 ```
