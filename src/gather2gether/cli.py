@@ -36,6 +36,20 @@ def cli_user_create(external_id, name):
     """Creates new user"""
     user_create(external_id, name)
 
+@users.command("find")
+@click.argument("external_id")
+def cli_user_find(external_id):
+    """Find user by its external id. Returns one user or None"""
+    user_find(external_id)
+
+@users.command("search")
+@click.option("--external_id")
+@click.option("--name")
+@click.option("--active", type=bool)
+def cli_user_search(external_id, name, active):
+    """Search users by criteria. Returns list of users"""
+    user_search(external_id, name, active)
+
 @users.command("update")
 @click.argument("external_id")
 @click.option("--name")
