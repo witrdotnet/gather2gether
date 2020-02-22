@@ -57,3 +57,9 @@ def cli_user_search(external_id, name, active):
 def cli_user_update(external_id, name, active):
     """Updates existing user"""
     user_update(external_id, name, active)
+
+@users.command("delete")
+@click.argument("external_id")
+def cli_user_delete(external_id):
+    """Delete user with provided external id. Returns total deleted users"""
+    user_delete(external_id)

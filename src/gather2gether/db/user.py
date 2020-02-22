@@ -45,3 +45,10 @@ def user_update(external_id, user_name, is_active):
         user.save()
     except User.DoesNotExist:
         logger.error("not found user to update, external id:{0}".format(external_id))
+
+def user_delete(external_id):
+    logger.info("about to delete user by external id:{0}".format(external_id))
+    query = User.delete().where(User.external_id == external_id)
+    total_deleted = query.execute()
+    logger.info("{0} deleted user".format(total_deleted))
+    return total_deleted
