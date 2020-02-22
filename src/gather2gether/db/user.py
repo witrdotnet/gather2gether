@@ -21,11 +21,14 @@ def user_find(external_id):
 
 def user_search(external_id=None, user_name=None, is_active=None):
     logger.info("about to search user by criteria, external id:{0}, name:{1}, active:{2}".format(external_id, user_name, is_active))
-    users = (User.select().where(
-                        (external_id == None | User.external_id == external_id) &
-                        (user_name == None | User.user_name == user_name) &
-                        (is_active == None | User.is_active == is_active)
-                        ))
+    clauses = True
+    if not external_id is None:
+        clauses &= (User.external_id == external_id)
+    if not user_name is None:
+        clauses &= (User.user_name == user_name)
+    if not is_active is None:
+        clauses &= (User.is_active == is_active)
+    users = User.select().where(clauses)
     logger.info("found users by criteria, external id:{0}, name:{1}, active:{2}".format(external_id, user_name, is_active))
     for user in users:
         logger.debug("\t\t- {0}\t{1}".format(user.external_id, user.user_name))
