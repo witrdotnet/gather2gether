@@ -12,34 +12,34 @@ import logging
 
 logger = logging.getLogger("g2g-cli")
 
-db = AppGroup('db')
-tasks = AppGroup('tasks')
-users = AppGroup('users')
+db = AppGroup("db")
+tasks = AppGroup("tasks")
+users = AppGroup("users")
 
 @db.command("init")
-def init_db():
+def cli_init_db():
     """Launch peewee to idempotent initialization of database"""
     init_database(g2gDB)
-    logger.info('database initialized sucessfully !')
+    logger.info("database initialized sucessfully !")
 
 
 @tasks.command("create")
 @click.argument("name")
-def create_task(name):
+def cli_task_create(name):
     """Creates new task"""
-    logger.info('Under dev.. Coming soon')
+    logger.info("Under dev.. Coming soon")
 
 @users.command("create")
 @click.argument("external_id")
 @click.argument("name")
-def create_user(external_id, name):
+def cli_user_create(external_id, name):
     """Creates new user"""
-    save_new_user(external_id, name)
+    user_create(external_id, name)
 
 @users.command("update")
 @click.argument("external_id")
-@click.argument("name")
-@click.argument("is_active")
-def create_user(external_id, name, is_active):
+@click.option("--name")
+@click.option("--active", type=bool)
+def cli_user_update(external_id, name, active):
     """Updates existing user"""
-    update_user(external_id, name, is_active)
+    user_update(external_id, name, active)
