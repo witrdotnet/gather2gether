@@ -51,7 +51,7 @@ g2g --help
 
 # Contribute
 
-## Start gather2gether
+## Install from source
 
 ```
 git clone git@github.com:witrdotnet/gather2gether.git
@@ -60,5 +60,16 @@ virtualenv .venv
 source .venv/bin/activate
 pip install Jinja2
 python setup.py install
+```
+
+## Run Tests
+
+```
+python -m unittest discover test/
+```
+
+## Start server
+
+```
 gather2gether
 ```
