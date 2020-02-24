@@ -35,6 +35,7 @@ setup(
         'peewee',
         'pymysql',
         'configparser',
+        'tabulate',
     ],
     classifiers=[
         "Programming Language :: Python",

@@ -1,3 +1,8 @@
+import logging
+logging.disable(logging.__all__)
+
+import traceback
+
 from gather2gether import app
 from gather2gether import g2gServer
 import logging
@@ -6,11 +11,6 @@ from flask.cli import AppGroup
 
 from gather2gether.db import g2gDB
 from gather2gether.db import init_database
-from gather2gether.db.user import *
-
-import logging
-
-logger = logging.getLogger("g2g-cli")
 
 db = AppGroup("db")
 tasks = AppGroup("tasks")
@@ -20,27 +20,37 @@ users = AppGroup("users")
 def cli_init_db():
     """Launch peewee to idempotent initialization of database"""
     init_database(g2gDB)
-    logger.info("database initialized sucessfully !")
-
+    print_success("database initialized sucessfully !")
 
 @tasks.command("create")
 @click.argument("name")
 def cli_task_create(name):
     """Creates new task"""
-    logger.info("Under dev.. Coming soon")
+    print_success("Under dev.. Coming soon")
 
 @users.command("create")
 @click.argument("external_id")
 @click.argument("name")
 def cli_user_create(external_id, name):
     """Creates new user"""
-    user_create(external_id, name)
+    try:
+        user = user_create(external_id, name)
+        print_success("User created successfully")
+        print_users(user)
+    except Exception:
+        traceback.print_exc()
+        print_fail("Failed to create user")
 
 @users.command("find")
 @click.argument("external_id")
 def cli_user_find(external_id):
     """Find user by its external id. Returns one user or None"""
-    user_find(external_id)
+    user = user_find(external_id)
+    if user is None:
+        print_success("Not found user with external id {0}".format(external_id))
+    else:
+        print_success("Found user with external id {0}".format(external_id))
+        print_users(user)
 
 @users.command("search")
 @click.option("--external_id")
@@ -48,7 +58,9 @@ def cli_user_find(external_id):
 @click.option("--active", type=bool)
 def cli_user_search(external_id, name, active):
     """Search users by criteria. Returns list of users"""
-    user_search(external_id, name, active)
+    users = user_search(external_id, name, active)
+    print_success("Search properly finished")
+    print_users(users)
 
 @users.command("update")
 @click.argument("external_id")
@@ -56,10 +68,39 @@ def cli_user_search(external_id, name, active):
 @click.option("--active", type=bool)
 def cli_user_update(external_id, name, active):
     """Updates existing user"""
-    user_update(external_id, name, active)
+    try:
+        user = user_update(external_id, name, active)
+        print_success("Successfuly updated user external id: {0}".format(external_id))
+        print_users(user)
+    except Exception as e:
+        if isinstance(e, User.DoesNotExist):
+            print_fail("not found user to update, external id:{0}".format(external_id))
+        else:
+            traceback.print_exc()
+            print_fail("Failed to update user with external_id: {0}".format(external_id))
 
 @users.command("delete")
 @click.argument("external_id")
 def cli_user_delete(external_id):
     """Delete user with provided external id. Returns total deleted users"""
     user_delete(external_id)
+    print_success("Successfuly deleted user external id: {0}".format(external_id))
+
+from tabulate import tabulate
+
+def print_success(message):
+    print("\n-----------------------------------\nSUCCESS\n-----------------------------------\n{0}\n".format(message))
+
+def print_fail(message):
+    print("\n-----------------------------------\nFAILED\n-----------------------------------\n{0}\n".format(message))
+
+def print_users(users):
+    headers = ["Externa_id", "Name", "Active"]
+    rows = []
+    if users is None:
+        users = []
+    elif isinstance(users, User):
+        users = [users]
+    for user in users:
+        rows.append([user.external_id, user.user_name, user.is_active])
+    print(tabulate(rows, headers=headers, tablefmt="psql"))
