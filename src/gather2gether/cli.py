@@ -1,16 +1,17 @@
 import logging
 logging.disable(logging.__all__)
 
-import traceback
-
 from gather2gether import app
 from gather2gether import g2gServer
-import logging
-import click
-from flask.cli import AppGroup
 
 from gather2gether.db import g2gDB
 from gather2gether.db import init_database
+from gather2gether.db.user import *
+
+import click
+from flask.cli import AppGroup
+from tabulate import tabulate
+import traceback
 
 db = AppGroup("db")
 tasks = AppGroup("tasks")
@@ -26,7 +27,7 @@ def cli_init_db():
 @click.argument("name")
 def cli_task_create(name):
     """Creates new task"""
-    print_success("Under dev.. Coming soon")
+    print_fail("Under dev.. Coming soon")
 
 @users.command("create")
 @click.argument("external_id")
@@ -85,8 +86,6 @@ def cli_user_delete(external_id):
     """Delete user with provided external id. Returns total deleted users"""
     user_delete(external_id)
     print_success("Successfuly deleted user external id: {0}".format(external_id))
-
-from tabulate import tabulate
 
 def print_success(message):
     print("\n-----------------------------------\nSUCCESS\n-----------------------------------\n{0}\n".format(message))
