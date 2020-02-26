@@ -61,12 +61,12 @@ class User(BaseModel):
     is_active = BooleanField(default=False)
 
 class Project(BaseModel):
-    project_name = CharField(unique=False)
-    description = CharField(unique=False)
+    project_name = CharField(unique=True)
+    description = CharField(unique=False, null = True)
     created_date = DateTimeField(default=datetime.datetime.now)
-    planned_start_date = DateTimeField()
-    planned_end_date = DateTimeField()
-    closed_date = DateTimeField()
+    planned_start_date = DateTimeField(null = True)
+    planned_end_date = DateTimeField(null = True)
+    closed_date = DateTimeField(null = True)
 
 class Task(BaseModel):
     user = ForeignKeyField(User, backref='tasks')
