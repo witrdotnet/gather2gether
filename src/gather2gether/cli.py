@@ -1,6 +1,3 @@
-import logging
-logging.disable(logging.__all__)
-
 from gather2gether import app
 from gather2gether import g2gServer
 
@@ -12,6 +9,9 @@ import click
 from flask.cli import AppGroup
 from tabulate import tabulate
 import traceback
+
+import logging
+logging.disable(logging.__all__)
 
 db = AppGroup("db")
 tasks = AppGroup("tasks")
@@ -88,10 +88,10 @@ def cli_user_delete(external_id):
     print_success("Successfuly deleted user external id: {0}".format(external_id))
 
 def print_success(message):
-    print("\n-----------------------------------\nSUCCESS\n-----------------------------------\n{0}\n".format(message))
+    click.secho("\n-----------------------------------\nSUCCESS\n-----------------------------------\n{0}\n".format(message), fg="green")
 
 def print_fail(message):
-    print("\n-----------------------------------\nFAILED\n-----------------------------------\n{0}\n".format(message))
+    click.secho("\n-----------------------------------\nFAILED\n-----------------------------------\n{0}\n".format(message), fg="red")
 
 def print_users(users):
     headers = ["Externa_id", "Name", "Active"]
@@ -102,4 +102,4 @@ def print_users(users):
         users = [users]
     for user in users:
         rows.append([user.external_id, user.user_name, user.is_active])
-    print(tabulate(rows, headers=headers, tablefmt="psql"))
+    click.secho(tabulate(rows, headers=headers, tablefmt="psql"))

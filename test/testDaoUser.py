@@ -7,6 +7,9 @@ init_database(g2gDB)
 
 from gather2gether.db.user import *
 
+import logging
+logging.disable(None)
+
 class TestUserDao(unittest.TestCase):
 
     def setUp(self):
