@@ -30,32 +30,72 @@ def project_search(project_name=None, is_closed=None, date=None, date_filter=Non
         clauses &= (Project.project_name == project_name)
     if not is_closed is None:
         if is_closed:
-            clauses &= (Project.closed_date is not None)
+            clauses &= (Project.closed_date.is_null(False))
         else:
-            clauses &= (Project.closed_date is None)
+            clauses &= (Project.closed_date.is_null())
     if not date is None and not date_filter is None and not date_operator is None:
-        # TODO
-        a=2
+        if date_filter == "start":
+            if date_operator == "eq":
+                clauses &= (Project.planned_start_date == date)
+            elif date_operator == "gt":
+                clauses &= (Project.planned_start_date > date)
+            elif date_operator == "lt":
+                clauses &= (Project.planned_start_date < date)
+            elif date_operator == "ge":
+                clauses &= (Project.planned_start_date >= date)
+            elif date_operator == "le":
+                clauses &= (Project.planned_start_date <= date)
+        elif date_filter == "end":
+            if date_operator == "eq":
+                clauses &= (Project.planned_end_date == date)
+            elif date_operator == "gt":
+                clauses &= (Project.planned_end_date > date)
+            elif date_operator == "lt":
+                clauses &= (Project.planned_end_date < date)
+            elif date_operator == "ge":
+                clauses &= (Project.planned_end_date >= date)
+            elif date_operator == "le":
+                clauses &= (Project.planned_end_date <= date)
+        elif date_filter == "close":
+            if date_operator == "eq":
+                clauses &= (Project.closed_date == date)
+            elif date_operator == "gt":
+                clauses &= (Project.closed_date > date)
+            elif date_operator == "lt":
+                clauses &= (Project.closed_date < date)
+            elif date_operator == "ge":
+                clauses &= (Project.closed_date >= date)
+            elif date_operator == "le":
+                clauses &= (Project.closed_date <= date)
     projects = Project.select().where(clauses)
     logger.info("found projects by criteria, project_name:{0}, is_closed:{1}, date:{2}, date_filter:{3}, date_operator:{4}".format(project_name, is_closed, date, date_filter, date_operator))
     for project in projects:
         logger.debug("\t\t- {0}\t{1}".format(project.project_name, project.description))
     return projects
 
-def project_update(project_name, description = None, planned_start_date = None, planned_end_date = None, closed_date = None):
+def project_update(project_name, new_project_name = None, description = None, planned_start_date = None, planned_end_date = None, closed_date = None):
     logger.info("about to update project name:{0}, description:{1}, planned_start_date:{2}, planned_end_date:{3}, closed_date: {4}".format(project_name, description, planned_start_date, planned_end_date, closed_date))
     try:
         project = Project.get(Project.project_name == project_name)
-        if project_name != None:
-            project.project_name = project_name
+        if new_project_name != None:
+            project.project_name = new_project_name
         if description != None:
             project.description = description
         if planned_start_date != None:
-            project.planned_start_date = planned_start_date
+            if planned_start_date == "":
+                project.planned_start_date = None
+            else:
+                project.planned_start_date = planned_start_date
         if planned_end_date != None:
-            project.planned_end_date = planned_end_date
+            if planned_end_date == "":
+                project.planned_end_date = None
+            else:
+                project.planned_end_date = planned_end_date
         if closed_date != None:
-            project.closed_date = closed_date
+            if closed_date == "":
+                project.closed_date = None
+            else:
+                project.closed_date = closed_date
         project.save()
         return project
     except Project.DoesNotExist:
