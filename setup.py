@@ -26,7 +26,7 @@ setup(
         'flask.commands': [
             'db=gather2gether.cli:db',
             'tasks=gather2gether.cli:tasks',
-            'users=gather2gether.cli:users',
+            'users=gather2gether.cli_user:users',
         ],
     },
     install_requires=[

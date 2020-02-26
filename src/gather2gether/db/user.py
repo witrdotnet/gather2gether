@@ -4,15 +4,15 @@ from gather2gether.db import User
 logger = logging.getLogger("g2g-dao-user")
 
 def user_create(external_id, user_name):
-    logger.info("about to save user external id:{0}, name:{1}".format(external_id, user_name))
+    logger.info("about to create user external id:{0}, name:{1}".format(external_id, user_name))
     try:
         user = User.get(User.external_id == external_id)
-        logger.info("already exists user id:{0}".format(external_id))
-        raise Exception("already exists user id:{0}".format(external_id))
+        logger.info("already exists user external id:{0}".format(external_id))
+        raise Exception("already exists user external id:{0}".format(external_id))
     except User.DoesNotExist:
         user = User(external_id = external_id, user_name = user_name)
         user.save()
-        logger.info("saved new user id:{0}, name:{1}".format(external_id, user_name))
+        logger.info("saved new user external id:{0}, name:{1}".format(external_id, user_name))
         return user
 
 def user_find(external_id):
