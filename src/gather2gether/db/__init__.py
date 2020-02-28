@@ -69,8 +69,9 @@ class Project(BaseModel):
     closed_date = DateTimeField(null = True)
 
 class Task(BaseModel):
-    user = ForeignKeyField(User, backref='tasks')
+    user = ForeignKeyField(User, backref='tasks', null = True)
     project = ForeignKeyField(Project, backref='tasks')
     task_number = IntegerField()
+    description = CharField(unique=False, null = True)
     created_date = DateTimeField(default=datetime.datetime.now)
-    is_finished = BooleanField(default=False)
+    end_date = DateTimeField(null = True)

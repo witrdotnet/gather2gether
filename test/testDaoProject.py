@@ -6,6 +6,8 @@ from gather2gether.db import *
 init_database(g2gDB)
 
 from gather2gether.db.project import *
+from gather2gether.db.task import task_delete, task_search
+from gather2gether.db.user import user_create, user_search, user_delete
 
 import logging
 logging.disable(None)
@@ -13,10 +15,18 @@ logging.disable(None)
 class TestProjectDao(unittest.TestCase):
 
     def setUp(self):
+        # delete all tasks in database
+        found_tasks = task_search()
+        for task in found_tasks:
+            task_delete(task.project.project_name, task.task_number)
         # delete all projects in database
         found_projects = project_search()
         for project in found_projects:
             project_delete(project.project_name)
+        # delete all users in database
+        found_users = user_search()
+        for user in found_users:
+            user_delete(user.external_id)
 
     def test_project_create_find(self):
         # WHEN
