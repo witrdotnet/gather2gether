@@ -1,6 +1,10 @@
 # Gather2gether
 
-Python project, helps remote people to accomplish tasks together.
+Helps remote people to accomplish tasks together.
+
+Gather2gether is composed of a 
+* REST api (Flask server)
+* CLI ([full documentation](./doc/g2g_cli_doc.md)) 
 
 [![Build Status](https://travis-ci.com/witrdotnet/gather2gether.svg?branch=master)](https://travis-ci.com/witrdotnet/gather2gether)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=witrdotnet_gather2gether&metric=alert_status)](https://sonarcloud.io/dashboard?id=witrdotnet_gather2gether)
