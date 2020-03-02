@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+
+    g2g-db:
+        image: mysql:5.7
+        container_name: g2gdb
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: gather2gether
+            MYSQL_USER: g2g
+            MYSQL_PASSWORD: g2g
+        networks: 
+            - g2gnetcompose
+
+    g2g-server:
+        image: witrdotnet/gather2gether
+        container_name: g2g
+        depends_on:
+            - g2g-db
+        ports: 
+            - 8080
+        volumes: 
+            - ./gather2gether.properties:/gather2gether.properties
+        networks: 
+            - g2gnetcompose
+
+networks: 
+    g2gnetcompose:
