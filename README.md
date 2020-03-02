@@ -15,6 +15,11 @@ Gather2gether is composed of a
 pip install gather2gether
 ```
 
+Alternatives using docker:
+
+* [I prefer start gather2gether inside a docker container](./virt/docker)
+* [I prefer start gather2gether with already configured docker compose services](./virt/docker-compose)
+
 # Configure
 
 * Start mysql database
