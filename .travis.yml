@@ -18,4 +18,4 @@ before_script:
   - pip install nose
 
 script:
-- nosetests -v --with-coverage --cover-package=gather2gether --cover-inclusive --with-xunit
+- nosetests -v --with-coverage --cover-package=gather2gether --cover-inclusive --with-xunit --cover-xml
