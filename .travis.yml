@@ -6,11 +6,16 @@ services:
   - docker
 
 before_install:
-- docker pull mysql:5.7
-- docker run -d --rm -p3307:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=gather2gether -e MYSQL_USER=g2g -e MYSQL_PASSWORD=g2g mysql:5.7
-- docker ps -a
-- pip install Jinja2
-- python setup.py install
+  - docker pull mysql:5.7
+  - docker run -d --rm -p3307:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=gather2gether -e MYSQL_USER=g2g -e MYSQL_PASSWORD=g2g mysql:5.7
+  - docker ps -a
+
+install:
+  - pip install Jinja2
+  - python setup.py install
+
+before_script:
+  - pip install nose
 
 script:
-- python -m unittest discover test/
+- nosetests -v --with-coverage --cover-package=gather2gether --cover-inclusive

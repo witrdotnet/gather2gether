@@ -45,9 +45,10 @@ def cli_task_find(project_name, task_number):
 @click.option("--is_closed", type=bool)
 @click.option("--end_date")
 @click.option("--date_operator", type=click.Choice(["eq", "lt", "gt", "le", "ge"]))
-def cli_task_search(project_name, task_number, is_closed, end_date, date_operator):
+@click.option("--user_external_id")
+def cli_task_search(project_name, task_number, is_closed, end_date, date_operator, user_external_id):
     """Search tasks by criteria. Returns list of tasks"""
-    tasks = task_search(project_name, is_closed, task_number, end_date, date_operator)
+    tasks = task_search(project_name, is_closed, task_number, end_date, date_operator, user_external_id)
     print_success("Search properly finished")
     print_tasks(tasks)
 

@@ -26,7 +26,7 @@ def wait_for_db_connection(db, max_tries, sleep_duration_in_seconds):
     while True:
         try_count += 1
         try:
-            db.connect()
+            db.connect(reuse_if_open=True)
             logger.info("database server connection try {0}: OK".format(try_count))
             return
         except Exception as error:
