@@ -1,17 +1,18 @@
 mkdir -p ./doc
 
 function put_cmd_doc() {
-	echo "put comand doc of $#"
 	ARGS_CNT=$#
 	if [ $ARGS_CNT == 1 ]; then
+		echo -e "==========================\n\t g2g $1\n=========================="
 		echo "## g2g $1" >> $TRAGET_DOC_FILE
 		echo "\`\`\`" >> $TRAGET_DOC_FILE
-		g2g $1 >> $TRAGET_DOC_FILE
+		g2g $1 --help >> $TRAGET_DOC_FILE
 		echo "\`\`\`" >> $TRAGET_DOC_FILE
 	elif [ $ARGS_CNT == 2 ]; then
+		echo "============= g2g $1 $2"
 		echo "* g2g $1 $2" >> $TRAGET_DOC_FILE
 		echo "\`\`\`" >> $TRAGET_DOC_FILE
-		g2g $1 >> $TRAGET_DOC_FILE
+		g2g $1 $2 --help >> $TRAGET_DOC_FILE
 		echo "\`\`\`" >> $TRAGET_DOC_FILE
 	fi
 }
@@ -34,7 +35,6 @@ put_cmd_doc projects update
 put_cmd_doc projects find
 put_cmd_doc projects search
 put_cmd_doc projects delete
-
 
 put_cmd_doc tasks
 put_cmd_doc tasks create
