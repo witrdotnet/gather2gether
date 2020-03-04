@@ -6,7 +6,7 @@ Gather2gether is composed of a
 * REST api (Flask server)
 * CLI ([full documentation](./doc/g2g_cli_doc.md)) 
 
-[![Build Status](https://travis-ci.com/witrdotnet/gather2gether.svg?branch=master)](https://travis-ci.com/witrdotnet/gather2gether)
+[![Build Status](https://travis-ci.org/witrdotnet/gather2gether.svg?branch=master)](https://travis-ci.org/witrdotnet/gather2gether)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=witrdotnet_gather2gether&metric=alert_status)](https://sonarcloud.io/dashboard?id=witrdotnet_gather2gether)
 
 # Install
@@ -76,8 +76,16 @@ python setup.py install
 
 ## Run Tests
 
+### With unittest
+
 ```
 python -m unittest discover test/
+```
+
+### With nosetests
+
+```
+nosetests -v --with-coverage --cover-package=gather2gether --cover-inclusive
 ```
 
 ## Start server

@@ -50,3 +50,29 @@ class TestTaskDao(unittest.TestCase):
         self.assertEqual(found_task.description, "description task 2")
         self.assertEqual(found_task.end_date, datetime.datetime(2020, 1, 1, 0, 0))
         self.assertEqual(found_task.user, user)
+
+    def test_task_search_by_user(self):
+        # GIVEN
+        project_create("PROJ4TaskSearch")
+        task_create("PROJ4TaskSearch", 1)
+        user = user_create("PROJ4TaskSearch", "Mr. Lazy")
+        task_update("PROJ4TaskSearch", 1, user=user)
+        # WHEN
+        found_tasks = task_search(user_external_id=user.external_id)
+        self.assertIsNotNone(found_tasks)
+        self.assertEqual(len(found_tasks), 1)
+
+    def test_task_delete(self):
+        # GIVEN
+        project_create("PROJ4TaskDelete")
+        task_create("PROJ4TaskDelete", 1)
+        found_tasks = task_search(project_name="PROJ4TaskDelete", task_number=1)
+        self.assertIsNotNone(found_tasks)
+        self.assertEqual(len(found_tasks), 1)
+        # WHEN
+        deleted_task_count = task_delete("PROJ4TaskDelete", 1)
+        # THEN
+        self.assertEqual(deleted_task_count, 1)
+        found_tasks = task_search(project_name="PROJ4TaskDelete", task_number=1)
+        self.assertIsNotNone(found_tasks)
+        self.assertEqual(len(found_tasks), 0)

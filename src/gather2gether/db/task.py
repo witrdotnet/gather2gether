@@ -2,6 +2,8 @@ import logging
 from gather2gether.db import Task
 from gather2gether.db import Project
 from gather2gether.db.project import project_find
+from gather2gether.db import User
+from gather2gether.db.user import user_find
 
 logger = logging.getLogger("g2g-dao-task")
 
@@ -31,8 +33,8 @@ def task_find(project_name, task_number):
     except Task.DoesNotExist:
         return None
 
-def task_search(project_name=None, is_closed=None, task_number=None, end_date=None, date_operator=None):
-    logger.info("about to search task by criteria, project_name:{0}, is_closed:{1}, end_date:{2}, date_operator:{3}".format(project_name, is_closed, end_date, date_operator))
+def task_search(project_name=None, is_closed=None, task_number=None, end_date=None, date_operator=None, user_external_id=None):
+    logger.info("about to search task by criteria, project_name:{0}, is_closed:{1}, end_date:{2}, date_operator:{3}, user_external_id:{4}".format(project_name, is_closed, end_date, date_operator, user_external_id))
     clauses = True
     if not project_name is None:
         project = project_find(project_name)
@@ -40,6 +42,12 @@ def task_search(project_name=None, is_closed=None, task_number=None, end_date=No
             return []
         else:
             clauses &= (Task.project == project)
+    if not user_external_id is None:
+        user = user_find(user_external_id)
+        if user is None:
+            return []
+        else:
+            clauses &= (Task.user == user)
     if not is_closed is None:
         if is_closed:
             clauses &= (Task.end_date.is_null(False))
@@ -57,7 +65,7 @@ def task_search(project_name=None, is_closed=None, task_number=None, end_date=No
         elif date_operator == "le":
             clauses &= (Task.end_date <= end_date)
     tasks = Task.select().where(clauses)
-    logger.info("found tasks by criteria, project_name:{0}, is_closed:{1}, end_date:{2}, date_operator:{3}".format(project_name, is_closed, end_date, date_operator))
+    logger.info("found tasks by criteria, project_name:{0}, is_closed:{1}, end_date:{2}, date_operator:{3}, user_external_id:{4}".format(project_name, is_closed, end_date, date_operator, user_external_id))
     for task in tasks:
         logger.debug("\t\t- {0}\t{1}".format(task.project.project_name, task.task_number))
     return tasks
