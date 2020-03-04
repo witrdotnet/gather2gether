@@ -5,6 +5,12 @@ python:
 services:
   - docker
 
+addons:
+  sonarcloud:
+    organization: "witrdotnet"
+    token:
+      secure: "$SONAR_CLOUD_TOKEN"
+  
 before_install:
   - docker pull mysql:5.7
   - docker run -d --rm -p3307:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=gather2gether -e MYSQL_USER=g2g -e MYSQL_PASSWORD=g2g mysql:5.7
@@ -15,7 +21,9 @@ install:
   - python setup.py install
 
 before_script:
+  - pip install coverage
   - pip install nose
 
 script:
-- nosetests -v --with-coverage --cover-package=gather2gether --cover-inclusive
+  - nosetests -v --with-coverage --cover-package=gather2gether --cover-inclusive --with-xunit --cover-xml --cover-xml-file=coverage-reports/coverage-nose.xml
+  - sonar-scanner -Dsonar.login=${SONAR_CLOUD_TOKEN}
