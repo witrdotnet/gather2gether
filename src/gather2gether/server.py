@@ -3,12 +3,12 @@ import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 
 class Server(object):
-    def __init__(self, flaskApp, version):
+    def __init__(self, flask_app, version):
         self.logger = logging.getLogger('g2g-server')
         # TODO: get version from setup
         self.version = version
-        self.flaskApp = flaskApp
-        self.httpPort = 8080
+        self.flask_app = flask_app
+        self.http_port = 8080
         self.host = '0.0.0.0'
         self.debug = False
 
@@ -16,10 +16,10 @@ class Server(object):
         return("gather2gether server")
 
     def start(self):
-        self.logger.info(self.getAsciiArt())
-        self.flaskApp.run(host=self.host, port=self.httpPort, debug=self.debug)
+        self.logger.info(self.get_ascii_art())
+        self.flask_app.run(host=self.host, port=self.http_port, debug=self.debug)
 
-    def getAsciiArt(self):
+    def get_ascii_art(self):
         return """
               _   _                 ____               _   _               
    __ _  __ _| |_| |__   ___ _ __  |___ \    __ _  ___| |_| |__   ___ _ __ 

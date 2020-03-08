@@ -33,14 +33,13 @@ def wait_for_db_connection(db, max_tries, sleep_duration_in_seconds):
             if try_count < max_tries:
                 logger.info("database server connection try {0}: FAILED {1} {2}".format(try_count, db.connect_params, error))
                 time.sleep(sleep_duration_in_seconds)
-                pass
             else:
                 logger.error("database server connection reached max tries. Unable to connect to DB")
                 logger.exception(error)
                 raise
 
 from gather2gether.config import *
-config = readConfig()
+config = read_config()
 db_host = config.get('database', 'host')
 db_port = config.getint('database', 'port')
 db_name = config.get('database', 'db_name')
