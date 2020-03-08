@@ -11,6 +11,8 @@ def read_config():
         config_path = os.environ['G2G_CONF_PATH']
     except KeyError:
         logger.info("config path not provided")
+    if len(config_path) == 0:
+        config_path = "."
     if len(config_path) > 1 and config_path.endswith("/"):
         config_path = config_path[:-1]
     logger.info("config path: {0}".format(config_path))
