@@ -14,7 +14,7 @@ services:
             - g2gnetcompose
 
     g2g-server:
-        image: witrdotnet/gather2gether
+        image: witrdotnet/gather2gether:latest
         container_name: g2g
         depends_on:
             - g2g-db
