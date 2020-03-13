@@ -68,7 +68,7 @@ g2g --help
 ```
 git clone git@github.com:witrdotnet/gather2gether.git
 cd gather2gether/
-virtualenv .venv
+virtualenv .venv (add "-p /usr/bin/pythonX.Y" to specify python version)
 source .venv/bin/activate
 pip install Jinja2
 python setup.py install

@@ -7,7 +7,7 @@ from tabulate import tabulate
 import traceback
 
 import logging
-logging.disable(logging.__all__)
+logging.disable(logging.INFO)
 
 users = AppGroup("users")
 

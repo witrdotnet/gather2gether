@@ -5,7 +5,7 @@ from gather2gether.server import Server
 from flask import Flask
 
 import logging
-logging.disable(None)
+logging.disable(logging.INFO)
 
 app = Flask("test")
 app.run = Mock()

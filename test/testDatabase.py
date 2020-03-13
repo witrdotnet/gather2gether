@@ -3,7 +3,7 @@ from mock import Mock
 from gather2gether.db import create_database, init_database, wait_for_db_connection
 
 import logging
-logging.disable(None)
+logging.disable(logging.INFO)
 
 class TestDatabase(unittest.TestCase):
 
@@ -22,4 +22,4 @@ class TestDatabase(unittest.TestCase):
         # WHEN - THEN
         with self.assertRaises(Exception) as context:
             wait_for_db_connection(database, 1, 1)
-        self.assertIsNotNone(context.exception)
+        self.assertIsNotNone(str(context.exception))

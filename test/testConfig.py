@@ -3,7 +3,7 @@ import os
 from gather2gether.config import read_config
 
 import logging
-logging.disable(None)
+logging.disable(logging.INFO)
 
 class TestConfig(unittest.TestCase):
 
@@ -53,4 +53,4 @@ class TestConfig(unittest.TestCase):
         # WHEN - THEN
         with self.assertRaises(EnvironmentError) as context:
             read_config()
-        self.assertIn("not found config file " + expected_config_file_path, context.exception.message)
+        self.assertIn("not found config file " + expected_config_file_path, str(context.exception))

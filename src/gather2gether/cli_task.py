@@ -9,7 +9,7 @@ import traceback
 from gather2gether.db.user import user_find
 
 import logging
-logging.disable(logging.__all__)
+logging.disable(logging.INFO)
 
 tasks = AppGroup("tasks")
 
