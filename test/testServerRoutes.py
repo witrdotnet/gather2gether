@@ -3,7 +3,7 @@ import unittest
 from gather2gether import app
 
 import logging
-logging.disable(None)
+logging.disable(logging.INFO)
 
 class TestRoutes(unittest.TestCase):
     
@@ -14,4 +14,4 @@ class TestRoutes(unittest.TestCase):
             # THEN
             self.assertEqual(response.status_code, 200)
             self.assertIsNotNone(response.data)
-            self.assertIn("</pre>", response.data)
+            self.assertIn("</pre>", str(response.data))

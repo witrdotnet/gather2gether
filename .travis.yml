@@ -1,6 +1,11 @@
 language: python
 python:
   - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
 
 services:
   - docker
@@ -26,4 +31,6 @@ before_script:
 
 script:
   - nosetests -v --with-coverage --cover-package=gather2gether --cover-inclusive --with-xunit --cover-xml --cover-xml-file=coverage-reports/coverage-nose.xml
+
+after_success:
   - sonar-scanner -Dsonar.login=${SONAR_CLOUD_TOKEN}

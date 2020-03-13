@@ -10,7 +10,7 @@ from gather2gether.db.task import task_delete, task_search
 from gather2gether.db.user import user_create, user_search, user_delete
 
 import logging
-logging.disable(None)
+logging.disable(logging.INFO)
 
 class TestProjectDao(unittest.TestCase):
 

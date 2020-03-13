@@ -10,7 +10,7 @@ from gather2gether.db.project import project_create, project_search, project_del
 from gather2gether.db.user import user_create, user_search, user_delete
 
 import logging
-logging.disable(None)
+logging.disable(logging.INFO)
 
 class TestTaskDao(unittest.TestCase):
 
@@ -33,7 +33,7 @@ class TestTaskDao(unittest.TestCase):
         expected_project_name = "test_task_create_on_not_existing_project"
         with self.assertRaises(Exception) as context:
             task_create(expected_project_name, 1)
-        self.assertIn("project {0} not Found".format(expected_project_name), context.exception.message)
+        self.assertIn("project {0} not Found".format(expected_project_name), str(context.exception))
 
     def test_task_create_already_existing(self):
         # GIVEN
@@ -43,7 +43,7 @@ class TestTaskDao(unittest.TestCase):
         # WHEN - THEN
         with self.assertRaises(Exception) as context:
             task_create(expected_project_name, 1)
-        self.assertIn("already exists task number", context.exception.message)
+        self.assertIn("already exists task number", str(context.exception))
 
     def test_task_create_find(self):
         # GIVEN
@@ -70,7 +70,7 @@ class TestTaskDao(unittest.TestCase):
         # WHEN - THEN
         with self.assertRaises(Exception) as context:
             task_update("test_task_update_not_existing_task", 1, description="description task 2")
-        self.assertIn("not found task to update", context.exception.message)
+        self.assertIn("not found task to update", str(context.exception))
 
     def test_task_update_all_fields(self):
         # GIVEN
@@ -248,4 +248,4 @@ class TestTaskDao(unittest.TestCase):
         # WHEN - THEN
         with self.assertRaises(Exception) as context:
             task_delete(expected_project_name, 1)
-        self.assertIn("project {0} not Found".format(expected_project_name), context.exception.message)
+        self.assertIn("project {0} not Found".format(expected_project_name), str(context.exception))
