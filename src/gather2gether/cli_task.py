@@ -66,11 +66,8 @@ def cli_task_update(project_identifier, task_number, identifier_type, descriptio
         logger.info("find project by {0} = {1}".format(project_identifier, identifier_type))
         if identifier_type == "id":
             project_identifier_arg = int(project_identifier)
-        project = project_find(project_identifier_arg)
-        if project is None:
-            raise Exception("Not found task to update. Task number:{0} in project:{1}".format(task_number, project_identifier))
         user = user_find(user_external_id)
-        task = task_update(project.project_name, task_number, description, end_date, user)
+        task = task_update(project_identifier_arg, task_number, description, end_date, user)
         print_success("Successfuly updated task number: {0} of project: {1}".format(task_number, project_identifier))
         print_tasks(task)
     except Exception as e:
