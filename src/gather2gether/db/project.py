@@ -15,13 +15,21 @@ def project_create(project_name, description = None, planned_start_date = None, 
         logger.info("saved new project:{0}".format(project_name))
         return project
 
-def project_find(project_name):
-    logger.info("about to find project by name:{0}".format(project_name))
-    try:
-        project = Project.get(Project.project_name == project_name)
-        return project
-    except Project.DoesNotExist:
-        return None
+def project_find(project_identifier):
+    if type(project_identifier) is str:
+        logger.info("about to find project by name:{0}".format(project_identifier))
+        try:
+            project = Project.get(Project.project_name == project_identifier)
+            return project
+        except Project.DoesNotExist:
+            return None
+    else:
+        logger.info("about to find project by id:{0}".format(project_identifier))
+        try:
+            project = Project.get(Project.id == project_identifier)
+            return project
+        except Project.DoesNotExist:
+            return None
 
 def project_search(project_name=None, is_closed=None, date=None, date_filter=None, date_operator=None):
     logger.info("about to search project by criteria, project_name:{0}, is_closed:{1}, date:{2}, date_filter:{3}, date_operator:{4}".format(project_name, is_closed, date, date_filter, date_operator))

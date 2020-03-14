@@ -22,9 +22,9 @@ def task_create(project_name, task_number, description = None):
         logger.info("saved new task:{0} in project:{1}".format(task_number, project_name))
         return task
 
-def task_find(project_name, task_number):
-    logger.info("about to find task number:{0} in project:{1}".format(task_number, project_name))
-    project = project_find(project_name)
+def task_find(project_identifier, task_number):
+    logger.info("about to find task number:{0} in project:{1}".format(task_number, project_identifier))
+    project = project_find(project_identifier)
     if project is None:
         return None
     try:
@@ -70,11 +70,11 @@ def task_search(project_name=None, is_closed=None, task_number=None, end_date=No
         logger.debug("\t\t- {0}\t{1}".format(task.project.project_name, task.task_number))
     return tasks
 
-def task_update(project_name, task_number, description = None, end_date = None, user = None):
-    logger.info("about to update task project_name:{0}, task_number:{1}, description:{2}, end_date:{3}, user: {4}".format(project_name, task_number, description, end_date, user))
-    task = task_find(project_name, task_number)
+def task_update(project_identifier, task_number, description = None, end_date = None, user = None):
+    logger.info("about to update task project_identifier:{0}, task_number:{1}, description:{2}, end_date:{3}, user: {4}".format(project_identifier, task_number, description, end_date, user))
+    task = task_find(project_identifier, task_number)
     if task is None:
-        raise Exception("not found task to update. Task number:{0} in project:{1}".format(task_number, project_name))
+        raise Exception("not found task to update. Task number:{0} in project:{1}".format(task_number, project_identifier))
     else:
         if description != None:
             task.description = description

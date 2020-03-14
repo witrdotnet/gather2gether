@@ -27,14 +27,17 @@ def cli_project_create(project_name, description, planned_start_date, planned_en
         print_fail("Failed to create project")
 
 @projects.command("find")
-@click.argument("project_name")
-def cli_project_find(project_name):
-    """Find project by its name. Returns one project or None"""
-    project = project_find(project_name)
+@click.argument("project_identifier")
+def cli_project_find(project_identifier):
+    """Find project by its identifier. Returns one project or None.
+
+    PROJECT_IDENTIFIER could be string (find by project name) or number (find by project id)
+    """
+    project = project_find(project_identifier)
     if project is None:
-        print_success("Not found project with name {0}".format(project_name))
+        print_success("Not found project with identifier {0}".format(project_identifier))
     else:
-        print_success("Found project with name {0}".format(project_name))
+        print_success("Found project with identifier {0}".format(project_identifier))
         print_projects(project)
 
 @projects.command("search")

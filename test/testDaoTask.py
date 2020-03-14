@@ -66,13 +66,27 @@ class TestTaskDao(unittest.TestCase):
         found_task = task_find("test_task_find_not_existing_task_of_not_existing_project",1)
         self.assertIsNone(found_task)
 
-    def test_task_update_not_existing_task(self):
+    def test_task_update_not_existing_project_name(self):
         # WHEN - THEN
         with self.assertRaises(Exception) as context:
             task_update("test_task_update_not_existing_task", 1, description="description task 2")
         self.assertIn("not found task to update", str(context.exception))
 
-    def test_task_update_all_fields(self):
+    def test_task_update_not_existing_project_id(self):
+        # WHEN - THEN
+        with self.assertRaises(Exception) as context:
+            task_update(-50, 1, description="description task 2")
+        self.assertIn("not found task to update", str(context.exception))
+
+    def test_task_update_not_existing_task(self):
+        # GIVEN
+        project_create("test_task_update_not_existing_task")
+        # WHEN - THEN
+        with self.assertRaises(Exception) as context:
+            task_update("test_task_update_not_existing_task", 1, description="not exists")
+        self.assertIn("not found task to update", str(context.exception))
+
+    def test_task_update_all_fields_by_project_name(self):
         # GIVEN
         project_create("PROJ4Task2")
         task_create("PROJ4Task2", 2)
@@ -81,6 +95,20 @@ class TestTaskDao(unittest.TestCase):
         task_update("PROJ4Task2", 2, "description task 2", "2020-01-01", user)
         # THEN
         found_task = task_find("PROJ4Task2",2)
+        self.assertIsNotNone(found_task)
+        self.assertEqual(found_task.description, "description task 2")
+        self.assertEqual(found_task.end_date, datetime.datetime(2020, 1, 1, 0, 0))
+        self.assertEqual(found_task.user, user)
+
+    def test_task_update_all_fields_by_project_id(self):
+        # GIVEN
+        project = project_create("test_task_update_all_fields_by_project_id")
+        task_create("test_task_update_all_fields_by_project_id", 2)
+        user = user_create("test_task_update_all_fields_by_project_id", "Mr. Lazy")
+        # WHEN
+        task_update(project.id, 2, "description task 2", "2020-01-01", user)
+        # THEN
+        found_task = task_find("test_task_update_all_fields_by_project_id",2)
         self.assertIsNotNone(found_task)
         self.assertEqual(found_task.description, "description task 2")
         self.assertEqual(found_task.end_date, datetime.datetime(2020, 1, 1, 0, 0))

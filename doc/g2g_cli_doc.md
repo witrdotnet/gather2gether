@@ -47,7 +47,7 @@ Options:
 Commands:
   create  Creates new project
   delete  Delete project with provided name.
-  find    Find project by its name.
+  find    Find project by its identifier.
   search  Search projects by criteria.
   update  Updates existing project
 ```
@@ -79,9 +79,12 @@ Options:
 ```
 * g2g projects find
 ```
-Usage: g2g projects find [OPTIONS] PROJECT_NAME
+Usage: g2g projects find [OPTIONS] PROJECT_IDENTIFIER
 
-  Find project by its name. Returns one project or None
+  Find project by its identifier. Returns one project or None.
+
+  PROJECT_IDENTIFIER could be string (find by project name) or number (find
+  by project id)
 
 Options:
   --help  Show this message and exit.
@@ -121,7 +124,7 @@ Commands:
   delete  Delete task with provided task number and project name.
   find    Find task by project name and task number.
   search  Search tasks by criteria.
-  update  Updates existing task
+  update  Updates existing task.
 ```
 * g2g tasks create
 ```
@@ -135,9 +138,12 @@ Options:
 ```
 * g2g tasks update
 ```
-Usage: g2g tasks update [OPTIONS] PROJECT_NAME TASK_NUMBER
+Usage: g2g tasks update [OPTIONS] PROJECT_IDENTIFIER TASK_NUMBER
 
-  Updates existing task
+  Updates existing task.
+
+  PROJECT_IDENTIFIER could be string (find by project name) or number (find
+  by project id)
 
 Options:
   --description TEXT

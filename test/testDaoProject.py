@@ -28,11 +28,23 @@ class TestProjectDao(unittest.TestCase):
         for user in found_users:
             user_delete(user.external_id)
 
-    def test_project_create_find(self):
+    def test_project_create_find_by_name(self):
         # WHEN
         project_create("Project CREATE")
         # THEN
         found_project = project_find("Project CREATE")
+        self.assertIsNotNone(found_project)
+        self.assertEqual(found_project.project_name, "Project CREATE")
+        self.assertIsNone(found_project.description)
+        self.assertIsNone(found_project.planned_start_date)
+        self.assertIsNone(found_project.planned_end_date)
+        self.assertIsNone(found_project.closed_date)
+
+    def test_project_create_find_by_id(self):
+        # WHEN
+        project = project_create("Project CREATE")
+        # THEN
+        found_project = project_find(project.id)
         self.assertIsNotNone(found_project)
         self.assertEqual(found_project.project_name, "Project CREATE")
         self.assertIsNone(found_project.description)
