@@ -53,24 +53,32 @@ def cli_task_search(project_name, task_number, is_closed, end_date, date_operato
     print_tasks(tasks)
 
 @tasks.command("update")
-@click.argument("project_name")
+@click.argument("project_identifier")
 @click.argument("task_number")
+@click.option("--identifier_type", type=click.Choice(["name", "id"]), default="name")
 @click.option("--description")
 @click.option("--end_date")
 @click.option("--user_external_id")
-def cli_task_update(project_name, task_number, description, end_date, user_external_id):
+def cli_task_update(project_identifier, task_number, identifier_type, description, end_date, user_external_id):
     """Updates existing task"""
     try:
+        project_identifier_arg = project_identifier
+        logger.info("find project by {0} = {1}".format(project_identifier, identifier_type))
+        if identifier_type == "id":
+            project_identifier_arg = int(project_identifier)
+        project = project_find(project_identifier_arg)
+        if project is None:
+            raise Exception("Not found task to update. Task number:{0} in project:{1}".format(task_number, project_identifier))
         user = user_find(user_external_id)
-        task = task_update(project_name, task_number, description, end_date, user)
-        print_success("Successfuly updated task number: {0} of project: {1}".format(task_number, project_name))
+        task = task_update(project.project_name, task_number, description, end_date, user)
+        print_success("Successfuly updated task number: {0} of project: {1}".format(task_number, project_identifier))
         print_tasks(task)
     except Exception as e:
         if isinstance(e, Task.DoesNotExist):
-            print_fail("not found task to update, task number: {0} of project: {1}".format(task_number, project_name))
+            print_fail("Not found task to update, task number: {0} of project: {1}".format(task_number, project_identifier))
         else:
             traceback.print_exc()
-            print_fail("Failed to update task, task number: {0} of project: {1}".format(task_number, project_name))
+            print_fail("Failed to update task, task number: {0} of project: {1}".format(task_number, project_identifier))
 
 @tasks.command("delete")
 @click.argument("project_name")

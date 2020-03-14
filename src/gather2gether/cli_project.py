@@ -27,14 +27,19 @@ def cli_project_create(project_name, description, planned_start_date, planned_en
         print_fail("Failed to create project")
 
 @projects.command("find")
-@click.argument("project_name")
-def cli_project_find(project_name):
-    """Find project by its name. Returns one project or None"""
-    project = project_find(project_name)
+@click.argument("project_identifier")
+@click.option("--identifier_type", type=click.Choice(["name", "id"]), default="name")
+def cli_project_find(project_identifier, identifier_type):
+    """Find project by its identifier. Returns one project or None"""
+    project_identifier_arg = project_identifier
+    logger.info("find project by {0} = {1}".format(project_identifier, identifier_type))
+    if identifier_type == "id":
+        project_identifier_arg = int(project_identifier)
+    project = project_find(project_identifier_arg)
     if project is None:
-        print_success("Not found project with name {0}".format(project_name))
+        print_success("Not found project with identifier {0}".format(project_identifier))
     else:
-        print_success("Found project with name {0}".format(project_name))
+        print_success("Found project with identifier {0}".format(project_identifier))
         print_projects(project)
 
 @projects.command("search")
@@ -64,7 +69,7 @@ def cli_project_update(project_name, new_project_name, description, planned_star
         print_projects(project)
     except Exception as e:
         if isinstance(e, Project.DoesNotExist):
-            print_fail("not found project to update, name:{0}".format(project_name))
+            print_fail("Not found project to update, name:{0}".format(project_name))
         else:
             traceback.print_exc()
             print_fail("Failed to update project with name: {0}".format(project_name))
