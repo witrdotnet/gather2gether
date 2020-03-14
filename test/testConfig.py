@@ -9,7 +9,7 @@ class TestConfig(unittest.TestCase):
 
     def test_read_config_from_default_file(self):
         # GIVEN
-        os.environ["G2G_CONF_PATH"] = ""
+        os.environ["G2G_CONF_FILE"] = ""
         # WHEN
         config = read_config()
         # THEN
@@ -22,7 +22,7 @@ class TestConfig(unittest.TestCase):
 
     def test_read_config_from_customized_file_path(self):
         # GIVEN
-        os.environ["G2G_CONF_PATH"] = "./test"
+        os.environ["G2G_CONF_FILE"] = "./test/gather2gether-test.properties"
         # WHEN
         config = read_config()
         # THEN
@@ -35,7 +35,7 @@ class TestConfig(unittest.TestCase):
 
     def test_read_config_from_customized_file_path_with_leading_slash(self):
         # GIVEN
-        os.environ["G2G_CONF_PATH"] = "./test/"
+        os.environ["G2G_CONF_FILE"] = "./test/gather2gether-test.properties"
         # WHEN
         config = read_config()
         # THEN
@@ -49,7 +49,7 @@ class TestConfig(unittest.TestCase):
     def test_read_config_from_not_found_file(self):
         # GIVEN
         expected_config_file_path = "./test_read_config_file_not_found"
-        os.environ["G2G_CONF_PATH"] = expected_config_file_path
+        os.environ["G2G_CONF_FILE"] = expected_config_file_path
         # WHEN - THEN
         with self.assertRaises(EnvironmentError) as context:
             read_config()

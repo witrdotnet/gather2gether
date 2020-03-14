@@ -28,10 +28,11 @@ Alternatives using docker:
 docker run --rm --name g2gdb -p3307:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=gather2gether -e MYSQL_USER=g2g -e MYSQL_PASSWORD=g2g -d mysql:5.7
 ```
 
-* Setup gather2gether.properties
+* Setup configuration file
 
-Create anywhere configuration file `gather2gether.properties`
+Gather2gether will look for configuration file with name `gather2gether.properties` in current directory.
 
+Configuration file content must contain following section:
 ```
 [database]
 host = 127.0.0.1
@@ -41,18 +42,20 @@ user = g2g
 password = g2g
 ```
 
+You can use environment variable `G2G_CONF_FILE` to force using different configuration file in any directory.
+
 # Start server
 
-* Configuration file `gather2gether.properties` is created in current directory, run:
+* Run (suppose `gather2gether.properties` file exists in current directory):
 
 ```
 gather2gether
 ```
 
-* Configuration file `gather2gether.properties` is created in another directory (suppose /srv/g2g/conf/), run:
+* Or use different configuration file:
 
 ```
-G2G_CONF_PATH=/srv/g2g/conf gather2gether
+G2G_CONF_FILE=/path/to/conf/custom.properties gather2gether
 ```
 
 # Use cli
