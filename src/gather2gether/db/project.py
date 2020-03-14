@@ -1,5 +1,6 @@
 import logging
 from gather2gether.db import Project
+import numbers
 
 logger = logging.getLogger("g2g-dao-project")
 
@@ -16,17 +17,17 @@ def project_create(project_name, description = None, planned_start_date = None, 
         return project
 
 def project_find(project_identifier):
-    if type(project_identifier) is str:
-        logger.info("about to find project by name:{0}".format(project_identifier))
+    if isinstance(project_identifier, numbers.Number):
+        logger.info("about to find project by id:{0}".format(project_identifier))
         try:
-            project = Project.get(Project.project_name == project_identifier)
+            project = Project.get(Project.id == project_identifier)
             return project
         except Project.DoesNotExist:
             return None
     else:
-        logger.info("about to find project by id:{0}".format(project_identifier))
+        logger.info("about to find project by name:{0}".format(project_identifier))
         try:
-            project = Project.get(Project.id == project_identifier)
+            project = Project.get(Project.project_name == project_identifier)
             return project
         except Project.DoesNotExist:
             return None
