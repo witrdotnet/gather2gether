@@ -5,25 +5,23 @@ import logging
 logger = logging.getLogger("gather2gether-config")
 
 def read_config():
+    default_config_file = "./gather2gether.properties"
     # get path to config file from system env
-    config_path = "."
+    config_file = default_config_file
     try:
-        config_path = os.environ['G2G_CONF_PATH']
+        config_file = os.environ['G2G_CONF_FILE']
     except KeyError:
-        logger.info("config path not provided")
-    if len(config_path) == 0:
-        config_path = "."
-    if len(config_path) > 1 and config_path.endswith("/"):
-        config_path = config_path[:-1]
-    logger.info("config path: {0}".format(config_path))
+        logger.info("Config path not provided")
+    if len(config_file.strip()) == 0:
+        config_file = default_config_file
+    logger.info("Config path: {0}".format(config_file))
     # check config file exists
-    config_file_path = config_path + "/gather2gether.properties"
-    if os.path.exists(config_file_path):
+    if os.path.exists(config_file):
         # config from properties file
         config = configparser.ConfigParser(allow_no_value=True)
-        config.read(config_path + "/gather2gether.properties")
+        config.read(config_file)
         return config
     else:
-        logger.error("not found config file {0}".format(config_file_path))
-        raise EnvironmentError("not found config file " + config_file_path)
+        logger.error("Not found config file {0}".format(config_file))
+        raise EnvironmentError("not found config file " + config_file)
 
