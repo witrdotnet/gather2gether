@@ -70,12 +70,12 @@ def cli_user_delete(external_id):
     print_success("Successfuly deleted user external id: {0}".format(external_id))
 
 def print_users(users):
-    headers = ["Externa_id", "Name", "Active"]
+    headers = ["Id", "External id", "Name", "Active"]
     rows = []
     if users is None:
         users = []
     elif isinstance(users, User):
         users = [users]
     for user in users:
-        rows.append([user.external_id, user.user_name, user.is_active])
+        rows.append([user.id, user.external_id, user.user_name, user.is_active])
     click.secho(tabulate(rows, headers=headers, tablefmt="psql"))

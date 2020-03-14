@@ -82,12 +82,12 @@ def cli_project_delete(project_name):
     print_success("Successfuly deleted project name: {0}".format(project_name))
 
 def print_projects(projects):
-    headers = ["Name", "Description", "Planned start date", "Planned end date", "Close date"]
+    headers = ["Id", "Name", "Description", "Planned start date", "Planned end date", "Close date"]
     rows = []
     if projects is None:
         projects = []
     elif isinstance(projects, Project):
         projects = [projects]
     for project in projects:
-        rows.append([project.project_name, project.description, project.planned_start_date, project.planned_end_date, project.closed_date])
+        rows.append([project.id, project.project_name, project.description, project.planned_start_date, project.planned_end_date, project.closed_date])
     click.secho(tabulate(rows, headers=headers, tablefmt="psql"))
