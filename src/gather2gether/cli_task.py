@@ -86,7 +86,7 @@ def cli_task_delete(project_name, task_number):
     print_success("Successfuly deleted task, task number: {0} of project: {1}".format(task_number, project_name))
 
 def print_tasks(tasks):
-    headers = ["Task number", "Project name", "Description", "end date", "User assigned (external_id)"]
+    headers = ["Task id", "Task number", "Project id", "Project name", "Description", "End date", "User assigned (external_id)"]
     rows = []
     if tasks is None:
         tasks = []
@@ -96,5 +96,5 @@ def print_tasks(tasks):
         user_details = None
         if task.user != None:
             user_details = "{} ({})".format(task.user.user_name, task.user.external_id)
-        rows.append([task.task_number, task.project.project_name, task.description, task.end_date, user_details])
+        rows.append([task.id, task.task_number, task.project.id, task.project.project_name, task.description, task.end_date, user_details])
     click.secho(tabulate(rows, headers=headers, tablefmt="psql"))
