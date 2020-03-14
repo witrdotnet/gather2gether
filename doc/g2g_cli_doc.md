@@ -87,7 +87,8 @@ Usage: g2g projects find [OPTIONS] PROJECT_IDENTIFIER
   by project id)
 
 Options:
-  --help  Show this message and exit.
+  --identifier_type [name|id]
+  --help                       Show this message and exit.
 ```
 * g2g projects search
 ```
@@ -146,10 +147,11 @@ Usage: g2g tasks update [OPTIONS] PROJECT_IDENTIFIER TASK_NUMBER
   by project id)
 
 Options:
+  --identifier_type [name|id]
   --description TEXT
   --end_date TEXT
   --user_external_id TEXT
-  --help                   Show this message and exit.
+  --help                       Show this message and exit.
 ```
 * g2g tasks find
 ```
