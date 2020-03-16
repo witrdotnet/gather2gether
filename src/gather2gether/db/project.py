@@ -82,12 +82,12 @@ def project_search(project_name=None, is_closed=None, date=None, date_filter=Non
         logger.debug("\t\t- {0}\t{1}".format(project.project_name, project.description))
     return projects
 
-def project_update(project_name, new_project_name = None, description = None, planned_start_date = None, planned_end_date = None, closed_date = None):
-    logger.info("about to update project name:{0}, description:{1}, planned_start_date:{2}, planned_end_date:{3}, closed_date: {4}".format(project_name, description, planned_start_date, planned_end_date, closed_date))
+def project_update(project_identifier, project_name = None, description = None, planned_start_date = None, planned_end_date = None, closed_date = None):
+    logger.info("about to update project name:{0}, description:{1}, planned_start_date:{2}, planned_end_date:{3}, closed_date: {4}".format(project_identifier, description, planned_start_date, planned_end_date, closed_date))
     try:
-        project = Project.get(Project.project_name == project_name)
-        if new_project_name != None:
-            project.project_name = new_project_name
+        project = project_find(project_identifier)
+        if project_name != None:
+            project.project_name = project_name
         if description != None:
             project.description = description
         if planned_start_date != None:
@@ -108,12 +108,19 @@ def project_update(project_name, new_project_name = None, description = None, pl
         project.save()
         return project
     except Project.DoesNotExist:
-        logger.error("not found project to update, project name:{0}".format(project_name))
+        logger.error("not found project to update, project name:{0}".format(project_identifier))
         raise
 
-def project_delete(project_name):
-    logger.info("about to delete project by proect name:{0}".format(project_name))
-    query = Project.delete().where(Project.project_name == project_name)
+def project_delete(project_identifier):
+    logger.info("about to delete project with identifier:{0}".format(project_identifier))
+    query = None
+    if isinstance(project_identifier, numbers.Number):
+        logger.info("about to delete project with id:{0}".format(project_identifier))
+        query = Project.delete().where(Project.id == project_identifier)
+    else:
+        logger.info("about to delete project with name:{0}".format(project_identifier))
+        query = Project.delete().where(Project.project_name == project_identifier)
+    # proceed delete
     total_deleted = query.execute()
     logger.info("{0} deleted project".format(total_deleted))
     return total_deleted
