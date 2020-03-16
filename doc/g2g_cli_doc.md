@@ -65,26 +65,24 @@ Options:
 ```
 * g2g projects update
 ```
-Usage: g2g projects update [OPTIONS] PROJECT_NAME
+Usage: g2g projects update [OPTIONS] PROJECT_IDENTIFIER
 
   Updates existing project
 
 Options:
-  --new_project_name TEXT
+  --identifier_type [name|id]
+  --project_name TEXT
   --description TEXT
   --planned_start_date TEXT
   --planned_end_date TEXT
   --closed_date TEXT
-  --help                     Show this message and exit.
+  --help                       Show this message and exit.
 ```
 * g2g projects find
 ```
 Usage: g2g projects find [OPTIONS] PROJECT_IDENTIFIER
 
-  Find project by its identifier. Returns one project or None.
-
-  PROJECT_IDENTIFIER could be string (find by project name) or number (find
-  by project id)
+  Find project by its identifier. Returns one project or None
 
 Options:
   --identifier_type [name|id]
@@ -106,12 +104,13 @@ Options:
 ```
 * g2g projects delete
 ```
-Usage: g2g projects delete [OPTIONS] PROJECT_NAME
+Usage: g2g projects delete [OPTIONS] PROJECT_IDENTIFIER
 
   Delete project with provided name. Returns total deleted projects
 
 Options:
-  --help  Show this message and exit.
+  --identifier_type [name|id]
+  --help                       Show this message and exit.
 ```
 ## g2g tasks
 ```
@@ -125,26 +124,24 @@ Commands:
   delete  Delete task with provided task number and project name.
   find    Find task by project name and task number.
   search  Search tasks by criteria.
-  update  Updates existing task.
+  update  Updates existing task
 ```
 * g2g tasks create
 ```
-Usage: g2g tasks create [OPTIONS] PROJECT_NAME TASK_NUMBER
+Usage: g2g tasks create [OPTIONS] PROJECT_IDENTIFIER TASK_NUMBER
 
   Creates new task
 
 Options:
+  --identifier_type [name|id]
   --description TEXT
-  --help              Show this message and exit.
+  --help                       Show this message and exit.
 ```
 * g2g tasks update
 ```
 Usage: g2g tasks update [OPTIONS] PROJECT_IDENTIFIER TASK_NUMBER
 
-  Updates existing task.
-
-  PROJECT_IDENTIFIER could be string (find by project name) or number (find
-  by project id)
+  Updates existing task
 
 Options:
   --identifier_type [name|id]
@@ -155,12 +152,13 @@ Options:
 ```
 * g2g tasks find
 ```
-Usage: g2g tasks find [OPTIONS] PROJECT_NAME TASK_NUMBER
+Usage: g2g tasks find [OPTIONS] PROJECT_IDENTIFIER TASK_NUMBER
 
   Find task by project name and task number. Returns one task or None
 
 Options:
-  --help  Show this message and exit.
+  --identifier_type [name|id]
+  --help                       Show this message and exit.
 ```
 * g2g tasks search
 ```
@@ -179,13 +177,14 @@ Options:
 ```
 * g2g tasks delete
 ```
-Usage: g2g tasks delete [OPTIONS] PROJECT_NAME TASK_NUMBER
+Usage: g2g tasks delete [OPTIONS] PROJECT_IDENTIFIER TASK_NUMBER
 
   Delete task with provided task number and project name. Returns total
   deleted tasks
 
 Options:
-  --help  Show this message and exit.
+  --identifier_type [name|id]
+  --help                       Show this message and exit.
 ```
 ## g2g users
 ```
