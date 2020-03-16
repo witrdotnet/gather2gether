@@ -14,13 +14,17 @@ logging.disable(logging.INFO)
 tasks = AppGroup("tasks")
 
 @tasks.command("create")
-@click.argument("project_name")
+@click.argument("project_identifier")
 @click.argument("task_number")
+@click.option("--identifier_type", type=click.Choice(["name", "id"]), default="name")
 @click.option("--description")
-def cli_task_create(project_name, task_number, description):
+def cli_task_create(project_identifier, task_number, identifier_type, description):
     """Creates new task"""
     try:
-        task = task_create(project_name, task_number, description)
+        project_identifier_arg = project_identifier
+        if identifier_type == "id":
+            project_identifier_arg = int(project_identifier)
+        task = task_create(project_identifier_arg, task_number, description)
         print_success("Task created successfully")
         print_tasks(task)
     except Exception:
@@ -28,15 +32,19 @@ def cli_task_create(project_name, task_number, description):
         print_fail("Failed to create task")
 
 @tasks.command("find")
-@click.argument("project_name")
+@click.argument("project_identifier")
 @click.argument("task_number")
-def cli_task_find(project_name, task_number):
+@click.option("--identifier_type", type=click.Choice(["name", "id"]), default="name")
+def cli_task_find(project_identifier, task_number, identifier_type):
     """Find task by project name and task number. Returns one task or None"""
-    task = task_find(project_name, task_number)
+    project_identifier_arg = project_identifier
+    if identifier_type == "id":
+        project_identifier_arg = int(project_identifier)
+    task = task_find(project_identifier_arg, task_number)
     if task is None:
-        print_success("Not found task with project name {0} and task number {1}".format(project_name, task_number))
+        print_success("Not found task with project {0} and task number {1}".format(project_identifier, task_number))
     else:
-        print_success("Found task with project name {0} and task number {1}".format(project_name, task_number))
+        print_success("Found task with project {0} and task number {1}".format(project_identifier, task_number))
         print_tasks(task)
 
 @tasks.command("search")
@@ -63,10 +71,13 @@ def cli_task_update(project_identifier, task_number, identifier_type, descriptio
     """Updates existing task"""
     try:
         project_identifier_arg = project_identifier
-        logger.info("find project by {0} = {1}".format(project_identifier, identifier_type))
         if identifier_type == "id":
             project_identifier_arg = int(project_identifier)
-        user = user_find(user_external_id)
+        user = None
+        if user_external_id == "":
+            user = ""
+        elif not user_external_id is None:
+            user = user_find(user_external_id)
         task = task_update(project_identifier_arg, task_number, description, end_date, user)
         print_success("Successfuly updated task number: {0} of project: {1}".format(task_number, project_identifier))
         print_tasks(task)
@@ -78,12 +89,20 @@ def cli_task_update(project_identifier, task_number, identifier_type, descriptio
             print_fail("Failed to update task, task number: {0} of project: {1}".format(task_number, project_identifier))
 
 @tasks.command("delete")
-@click.argument("project_name")
+@click.argument("project_identifier")
 @click.argument("task_number")
-def cli_task_delete(project_name, task_number):
+@click.option("--identifier_type", type=click.Choice(["name", "id"]), default="name")
+def cli_task_delete(project_identifier, task_number, identifier_type):
     """Delete task with provided task number and project name. Returns total deleted tasks"""
-    task_delete(project_name, task_number)
-    print_success("Successfuly deleted task, task number: {0} of project: {1}".format(task_number, project_name))
+    project_identifier_arg = project_identifier
+    if identifier_type == "id":
+        project_identifier_arg = int(project_identifier)
+    try:
+        task_delete(project_identifier_arg, task_number)
+        print_success("Successfuly deleted task, task number: {0} of project: {1}".format(task_number, project_identifier))
+    except Exception:
+        traceback.print_exc()
+        print_fail("Failed to delete task, task number: {0} of project: {1}".format(task_number, project_identifier))
 
 def print_tasks(tasks):
     headers = ["Task id", "Task number", "Project id", "Project name", "Description", "End date", "User assigned (external_id)"]

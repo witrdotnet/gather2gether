@@ -7,19 +7,19 @@ from gather2gether.db.user import user_find
 
 logger = logging.getLogger("g2g-dao-task")
 
-def task_create(project_name, task_number, description = None):
-    logger.info("about to create task in project:{0}, task number:{1}, description:{2}".format(project_name, task_number, description))
-    project = project_find(project_name)
+def task_create(project_identifier, task_number, description = None):
+    logger.info("about to create task in project:{0}, task number:{1}, description:{2}".format(project_identifier, task_number, description))
+    project = project_find(project_identifier)
     if project is None:
-        raise Exception("project {0} not Found".format(project_name))
+        raise Exception("project {0} not Found".format(project_identifier))
     try:
         task = Task.get(Task.project == project, Task.task_number == task_number)
-        logger.info("already exists task number:{0} in project:{1}".format(task_number, project_name))
-        raise Exception("already exists task number:{0} in project:{1}".format(task_number, project_name))
+        logger.info("already exists task number:{0} in project:{1}".format(task_number, project_identifier))
+        raise Exception("already exists task number:{0} in project:{1}".format(task_number, project_identifier))
     except Task.DoesNotExist:
         task = Task(project = project, task_number = task_number, description = description)
         task.save()
-        logger.info("saved new task:{0} in project:{1}".format(task_number, project_name))
+        logger.info("saved new task:{0} in project:{1}".format(task_number, project_identifier))
         return task
 
 def task_find(project_identifier, task_number):
@@ -91,11 +91,11 @@ def task_update(project_identifier, task_number, description = None, end_date = 
         task.save()
         return task
 
-def task_delete(project_name, task_number):
-    logger.info("about to delete task number:{0} from project:{1}".format(task_number, project_name))
-    project = project_find(project_name)
+def task_delete(project_identifier, task_number):
+    logger.info("about to delete task number:{0} from project:{1}".format(task_number, project_identifier))
+    project = project_find(project_identifier)
     if project is None:
-        raise Exception("project {0} not Found".format(project_name))
+        raise Exception("project {0} not Found".format(project_identifier))
     query = Task.delete().where(Task.project == project and Task.task_number == task_number)
     total_deleted = query.execute()
     logger.info("{0} deleted task".format(total_deleted))
