@@ -84,32 +84,30 @@ def project_search(project_name=None, is_closed=None, date=None, date_filter=Non
 
 def project_update(project_identifier, project_name = None, description = None, planned_start_date = None, planned_end_date = None, closed_date = None):
     logger.info("about to update project name:{0}, description:{1}, planned_start_date:{2}, planned_end_date:{3}, closed_date: {4}".format(project_identifier, description, planned_start_date, planned_end_date, closed_date))
-    try:
-        project = project_find(project_identifier)
-        if project_name != None:
-            project.project_name = project_name
-        if description != None:
-            project.description = description
-        if planned_start_date != None:
-            if planned_start_date == "":
-                project.planned_start_date = None
-            else:
-                project.planned_start_date = planned_start_date
-        if planned_end_date != None:
-            if planned_end_date == "":
-                project.planned_end_date = None
-            else:
-                project.planned_end_date = planned_end_date
-        if closed_date != None:
-            if closed_date == "":
-                project.closed_date = None
-            else:
-                project.closed_date = closed_date
-        project.save()
-        return project
-    except Project.DoesNotExist:
-        logger.error("not found project to update, project name:{0}".format(project_identifier))
-        raise
+    project = project_find(project_identifier)
+    if project is None:
+        raise Project.DoesNotExist
+    if project_name != None:
+        project.project_name = project_name
+    if description != None:
+        project.description = description
+    if planned_start_date != None:
+        if planned_start_date == "":
+            project.planned_start_date = None
+        else:
+            project.planned_start_date = planned_start_date
+    if planned_end_date != None:
+        if planned_end_date == "":
+            project.planned_end_date = None
+        else:
+            project.planned_end_date = planned_end_date
+    if closed_date != None:
+        if closed_date == "":
+            project.closed_date = None
+        else:
+            project.closed_date = closed_date
+    project.save()
+    return project
 
 def project_delete(project_identifier):
     logger.info("about to delete project with identifier:{0}".format(project_identifier))
